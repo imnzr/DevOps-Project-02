@@ -46,7 +46,10 @@ Berikan nama untuk key-pair lalu pilih key pair 'RSA' dan file format nya '.pem'
 Selanjutnya membuat storage, setelah itu klik launch instance:
 ![image](https://github.com/user-attachments/assets/dd64f31c-a3f0-43e7-97b7-1e8821fe7da3)
 
-
+Buka terminal pada linux lalu ketikan perintah berikut ini untuk remote server awx ec2
+```
+ssh -i [file-ssh] [nama-user-server@ipaddress-server]
+```
 
 
 
