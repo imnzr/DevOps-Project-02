@@ -100,6 +100,9 @@ Setelah mengisi data pada proses sebelumnya, jenkins siap untuk digunakan
 
 ![ready](https://github.com/user-attachments/assets/4929b704-33b0-4e35-b5d3-b63f7c27d610)
 
+## STEP 2 : Integrate
+
+Buka halaman jenkins menggunakan alamat IP pada server jenkins + PORT 8080
 
 
 
