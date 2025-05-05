@@ -31,9 +31,15 @@ func main() {
 
 	router.GET("/api/users", userController.FindByAll)
 	router.GET("/api/user/:userId", userController.FindById)
-	router.POST("/api/user/signup", userController.Create)
+
 	router.PUT("/api/user/:userId", userController.Update)
+
+	router.POST("/api/user/signup", userController.Create)
+	router.POST("/api/user/signin", userController.Login)
+
 	router.DELETE("/api/user/:userId", userController.Delete)
+
+	router.POST("/api/user/update/username", userController.UpdateUsername)
 
 	server := http.Server{
 		Addr:    "localhost:8089",

@@ -22,7 +22,7 @@ func NewUserService(userRepository repository.UserRepository, DB *sql.DB) UserSe
 }
 
 // Create implements UserService.
-func (service UserServiceImpl) Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse {
+func (service *UserServiceImpl) Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -38,7 +38,7 @@ func (service UserServiceImpl) Create(ctx context.Context, request web.UserCreat
 }
 
 // Update implements UserService.
-func (service UserServiceImpl) Update(ctx context.Context, request web.UserUpdateRequest) web.UserResponse {
+func (service *UserServiceImpl) Update(ctx context.Context, request web.UserUpdateRequest) web.UserResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -55,7 +55,7 @@ func (service UserServiceImpl) Update(ctx context.Context, request web.UserUpdat
 }
 
 // Delete implements UserService.
-func (service UserServiceImpl) Delete(ctx context.Context, userId int) {
+func (service *UserServiceImpl) Delete(ctx context.Context, userId int) {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -67,7 +67,7 @@ func (service UserServiceImpl) Delete(ctx context.Context, userId int) {
 }
 
 // FindById implements UserService.
-func (service UserServiceImpl) FindById(ctx context.Context, userId int) web.UserResponse {
+func (service *UserServiceImpl) FindById(ctx context.Context, userId int) web.UserResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -79,7 +79,7 @@ func (service UserServiceImpl) FindById(ctx context.Context, userId int) web.Use
 }
 
 // FindByAll implements UserService.
-func (service UserServiceImpl) FindByAll(ctx context.Context) []web.UserResponse {
+func (service *UserServiceImpl) FindByAll(ctx context.Context) []web.UserResponse {
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -91,4 +91,38 @@ func (service UserServiceImpl) FindByAll(ctx context.Context) []web.UserResponse
 		userResponses = append(userResponses, helper.ToUserResponse(users))
 	}
 	return userResponses
+}
+
+// Login implements UserService.
+func (service *UserServiceImpl) Login(ctx context.Context, request web.LoginRequest) web.UserResponse {
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollback(tx)
+
+	user := domain.User{
+		Email:    request.Email,
+		Password: request.Password,
+	}
+
+	userFromDB := service.UserRepository.Login(ctx, tx, user)
+
+	return helper.ToUserResponse(userFromDB)
+}
+
+// UpdateUsername implements UserService.
+func (service *UserServiceImpl) UpdateUsername(ctx context.Context, request web.UserUpdateRequestUsername) (domain.User, error) {
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+	defer helper.CommitOrRollback(tx)
+
+	// validasi user
+	user, err := service.UserRepository.FindById(ctx, tx, request.Id)
+	helper.PanicIfError(err)
+
+	user.Username = request.Username
+
+	_, err = service.UserRepository.UpdateUsername(ctx, tx, user)
+	helper.PanicIfError(err)
+
+	return user, nil
 }

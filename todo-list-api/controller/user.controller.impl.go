@@ -125,3 +125,51 @@ func (controller UserControllerImpl) FindByAll(writter http.ResponseWriter, requ
 	err := encoder.Encode(webResponse)
 	helper.PanicIfError(err)
 }
+
+// Login implements UserController.
+func (controller *UserControllerImpl) Login(writter http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	decoder := json.NewDecoder(request.Body)
+	loginRequest := web.LoginRequest{}
+	err := decoder.Decode(&loginRequest)
+	helper.PanicIfError(err)
+
+	userResponse := controller.UserService.Login(request.Context(), loginRequest)
+	webResponse := web.WebResponse{
+		Code:   200,
+		Status: "OK",
+		Data:   userResponse,
+	}
+
+	encoder := json.NewEncoder(writter)
+	err = encoder.Encode(webResponse)
+	helper.PanicIfError(err)
+}
+
+// UpdateUsername implements UserController.
+func (controller *UserControllerImpl) UpdateUsername(writter http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	decoder := json.NewDecoder(request.Body)
+	userUpdateRequest := web.UserUpdateRequestUsername{}
+	err := decoder.Decode(&userUpdateRequest)
+	helper.PanicIfError(err)
+
+	userId := params.ByName("userId")
+	id, err := strconv.Atoi(userId)
+	helper.PanicIfError(err)
+
+	userUpdateRequest.Id = id
+
+	updateUser, err := controller.UserService.UpdateUsername(request.Context(), userUpdateRequest)
+	helper.PanicIfError(err)
+
+	webResponse := web.WebResponse{
+		Code:   200,
+		Status: "OK",
+		Data:   updateUser,
+	}
+
+	// Beri response ke client
+	writter.Header().Set("Content-Type", "application/json")
+	writter.WriteHeader(http.StatusOK)
+	json.NewEncoder(writter).Encode(webResponse)
+
+}
