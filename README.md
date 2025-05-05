@@ -100,9 +100,49 @@ Setelah mengisi data pada proses sebelumnya, jenkins siap untuk digunakan
 
 ![ready](https://github.com/user-attachments/assets/4929b704-33b0-4e35-b5d3-b63f7c27d610)
 
-## STEP 2 : Integrate
+## STEP 2 : Integrate Jenkins dengan Github
 
-Buka halaman jenkins menggunakan alamat IP pada server jenkins + PORT 8080
+Buka halaman jenkins menggunakan alamat IP pada server jenkins + PORT 8080, lalu pilih New Item untuk membuat project baru
 
+![Screenshot from 2025-05-05 15-33-02](https://github.com/user-attachments/assets/8e012a2a-9623-4dcd-8e53-9375b866abf9)
 
+Buat nama project dan type yang kita pilih disini adalah freestyle project lalu klik OK
+
+![Screenshot from 2025-05-05 15-43-42](https://github.com/user-attachments/assets/936f48d4-2578-4e14-ae01-34a537795b91)
+
+Setelah itu klik Source Code Management lalu pilih GIT
+
+![Screenshot from 2025-05-05 15-53-54](https://github.com/user-attachments/assets/5d71bd72-4199-4298-affc-65dcdb12eb77)
+
+Coppy URL repository github 
+
+![Screenshot from 2025-05-05 15-56-18](https://github.com/user-attachments/assets/14d0f743-a095-45a7-84ae-1541d5f90954)
+
+Paste URL yang sudah di salin tadi ke kolom berikut 
+
+![Screenshot from 2025-05-05 16-03-45](https://github.com/user-attachments/assets/7fbfb28d-fb83-4fc4-a5c9-c0dc33f28aa3)
+
+Lalu sesuaikan branches to build dengan branch kerja kalian 
+
+![Screenshot from 2025-05-05 16-05-20](https://github.com/user-attachments/assets/483d175b-5002-4633-ae33-ba0d044322a8)
+
+Selanjutnya ceklis pada bagian Github hook trigger fot GITSM Polling agar setiap perubahan yang terjadi pada repository Github, jenkins akan segera menangkap perubahan tersebut lalu Save
+
+![image](https://github.com/user-attachments/assets/235cbf4b-06b1-4143-a82c-11f1ae8ad91f)
+
+Selanjutnya adalah membuat webhook di github. untuk membuat webhook github, kita harus pergi ke pengaturan pada repository kita lalu pilih Webhook lalu pilih Add Webhook
+
+![Screenshot from 2025-05-05 16-20-02](https://github.com/user-attachments/assets/55a28926-6b00-472f-a0a7-ce591822220c)
+
+Setelah itu isi kolom Payload URL dengan alamat IP Jenkins + PORT yang terhubung lalu tambahkan endpoint /github-webhook agar GitHub tahu ke mana harus mengirim notifikasi saat terjadi event (seperti push, pull request, dll).
+
+![Screenshot from 2025-05-05 16-24-48](https://github.com/user-attachments/assets/659368ca-d426-4781-8ceb-20f295b78bfb)
+
+Scroll kebawah dan centang bagian Let me select individual events 
+
+![Screenshot from 2025-05-05 16-35-32](https://github.com/user-attachments/assets/f86cb77b-05ce-4eb9-aa06-96618fff271a)
+
+lalu centang bagian pull request dan add webhook
+
+![image](https://github.com/user-attachments/assets/09636357-d9cc-41dc-9935-fe1f9f52e2d7)
 
