@@ -96,6 +96,9 @@ Buat buat akun admin user dan isi kolom yang ada pada gambar berikut
 
 ![WhatsApp Image 2025-05-02 at 17 36 57](https://github.com/user-attachments/assets/32723058-f463-4deb-86e7-cd9de7412013)
 
+Setelah mengisi data pada proses sebelumnya, jenkins siap untuk digunakan
+
+![ready](https://github.com/user-attachments/assets/4929b704-33b0-4e35-b5d3-b63f7c27d610)
 
 
 
