@@ -10,8 +10,30 @@ import (
 
 type UserRepositoryImplementation struct{}
 
+// FindByEmail implements UserRepository.
+
 func NewUserRepository() UserRepository {
 	return &UserRepositoryImplementation{}
+}
+
+func (u *UserRepositoryImplementation) FindByEmail(ctx context.Context, tx *sql.Tx, email string) (domain.User, error) {
+	query := "SELECT id, username, email, password FROM `user` WHERE email = ?"
+	rows, err := tx.QueryContext(ctx, query, email)
+	if err != nil {
+		return domain.User{}, fmt.Errorf("failed to execute query: %w", err)
+	}
+	defer rows.Close()
+
+	user := domain.User{}
+	if rows.Next() {
+		err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Password)
+		if err != nil {
+			return domain.User{}, fmt.Errorf("failed to scan row: %w", err)
+		}
+		return user, nil
+	} else {
+		return domain.User{}, fmt.Errorf("user with email %s not found", email)
+	}
 }
 
 // Delete implements UserRepository.

@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -28,6 +29,8 @@ func GetConnection() (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Println("Connecting to database...")
+	time.Sleep(2 * time.Second)
 
 	db.SetConnMaxIdleTime(60 * time.Second)
 	db.SetConnMaxLifetime(60 * time.Second)

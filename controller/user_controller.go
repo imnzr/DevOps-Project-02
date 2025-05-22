@@ -7,6 +7,7 @@ import (
 
 	"github.com/imnzr/DevOps-Project-02/models/web"
 	"github.com/imnzr/DevOps-Project-02/service"
+	"github.com/imnzr/DevOps-Project-02/utils"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -30,7 +31,12 @@ func (controller *UserControllerImplementation) Login(writter http.ResponseWrite
 		return
 	}
 
-	userResponse := controller.UserService.Login(request.Context(), loginRequest)
+	userResponse, err := controller.UserService.Login(request.Context(), loginRequest)
+	if err != nil {
+		utils.WriteJsonError(writter, http.StatusUnauthorized, err.Error())
+		return
+	}
+
 	webResponse := web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "OK",

@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"log"
 
 	"github.com/imnzr/DevOps-Project-02/helper"
@@ -111,8 +112,26 @@ func (service *UserServiceImpplementation) FindById(ctx context.Context, userId 
 }
 
 // Login implements UserService.
-func (service *UserServiceImpplementation) Login(ctx context.Context, request web.UserLoginRequest) web.UserResponse {
-	panic("unimplemented")
+func (service *UserServiceImpplementation) Login(ctx context.Context, request web.UserLoginRequest) (web.UserResponse, error) {
+	tx, err := service.DB.Begin()
+	if err != nil {
+		log.Printf("error begin transaction: %v", err)
+	}
+	defer helper.HandleTx(tx)
+
+	user, err := service.UserRepository.FindByEmail(ctx, tx, request.Email)
+	if err != nil {
+		panic(errors.New("user not found"))
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password))
+	if err != nil {
+		log.Printf("error comparing password: %v", err)
+	}
+	return web.UserResponse{
+		Id:       user.Id,
+		Username: user.Username,
+		Email:    user.Email,
+	}, nil
 }
 
 // Update implements UserService.

@@ -36,7 +36,7 @@ func main() {
 	router.PUT("/user/update/:id", userController.Update)
 
 	server := http.Server{
-		Addr:    "localhost:3000",
+		Addr:    ":8080",
 		Handler: router,
 	}
 	err = server.ListenAndServe()
