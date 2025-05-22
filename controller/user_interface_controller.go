@@ -11,9 +11,7 @@ type UserController interface {
 	Update(writter http.ResponseWriter, request *http.Request, params httprouter.Params)
 	Delete(writter http.ResponseWriter, request *http.Request, params httprouter.Params)
 	FindById(writter http.ResponseWriter, request *http.Request, params httprouter.Params)
-	FindByAll(writter http.ResponseWriter, request *http.Request, params httprouter.Params)
+	FindAll(writter http.ResponseWriter, request *http.Request, params httprouter.Params)
 
-	// Login by email
 	Login(writter http.ResponseWriter, request *http.Request, params httprouter.Params)
-	UpdateUsername(writter http.ResponseWriter, request *http.Request, params httprouter.Params)
 }

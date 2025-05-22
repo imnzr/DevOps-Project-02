@@ -6,8 +6,3 @@ type UserUpdateRequest struct {
 	Email    string
 	Password string
 }
-
-type UserUpdateRequestUsername struct {
-	Id       int
-	Username string
-}
