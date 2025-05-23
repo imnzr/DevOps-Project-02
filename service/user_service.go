@@ -28,9 +28,8 @@ func NewUserService(userRepository repository.UserRepository, db *sql.DB) UserSe
 // Create implements UserService.
 func (service *UserServiceImpplementation) Create(ctx context.Context, request web.UserCreateRequest) web.UserResponse {
 	tx, err := service.DB.Begin()
-	if err != nil {
-		log.Printf("error begin transaction: %v", err)
-	}
+	helper.HandleErrorTransaction(err)
+
 	defer helper.HandleTx(tx)
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
@@ -58,9 +57,8 @@ func (service *UserServiceImpplementation) Create(ctx context.Context, request w
 // Delete implements UserService.
 func (service *UserServiceImpplementation) Delete(ctx context.Context, userId int) {
 	tx, err := service.DB.Begin()
-	if err != nil {
-		log.Printf("error begin transaction: %v", err)
-	}
+	helper.HandleErrorTransaction(err)
+
 	defer helper.HandleTx(tx)
 
 	user, err := service.UserRepository.FindById(ctx, tx, userId)
@@ -74,9 +72,8 @@ func (service *UserServiceImpplementation) Delete(ctx context.Context, userId in
 // FindAll implements UserService.
 func (service *UserServiceImpplementation) FindAll(ctx context.Context) []web.UserResponse {
 	tx, err := service.DB.Begin()
-	if err != nil {
-		log.Printf("error begin transaction: %v", err)
-	}
+	helper.HandleErrorTransaction(err)
+
 	defer helper.HandleTx(tx)
 
 	users := service.UserRepository.FindByAll(ctx, tx)
@@ -94,9 +91,8 @@ func (service *UserServiceImpplementation) FindAll(ctx context.Context) []web.Us
 // FindById implements UserService.
 func (service *UserServiceImpplementation) FindById(ctx context.Context, userId int) web.UserResponse {
 	tx, err := service.DB.Begin()
-	if err != nil {
-		log.Printf("error begin transaction: %v", err)
-	}
+	helper.HandleErrorTransaction(err)
+
 	defer helper.HandleTx(tx)
 
 	user, err := service.UserRepository.FindById(ctx, tx, userId)
@@ -114,9 +110,8 @@ func (service *UserServiceImpplementation) FindById(ctx context.Context, userId 
 // Login implements UserService.
 func (service *UserServiceImpplementation) Login(ctx context.Context, request web.UserLoginRequest) (web.UserResponse, error) {
 	tx, err := service.DB.Begin()
-	if err != nil {
-		log.Printf("error begin transaction: %v", err)
-	}
+	helper.HandleErrorTransaction(err)
+
 	defer helper.HandleTx(tx)
 
 	user, err := service.UserRepository.FindByEmail(ctx, tx, request.Email)
@@ -137,9 +132,8 @@ func (service *UserServiceImpplementation) Login(ctx context.Context, request we
 // Update implements UserService.
 func (service *UserServiceImpplementation) Update(ctx context.Context, request web.UserUpdateRequest) web.UserResponse {
 	tx, err := service.DB.Begin()
-	if err != nil {
-		log.Printf("error begin transaction: %v", err)
-	}
+	helper.HandleErrorTransaction(err)
+
 	defer helper.HandleTx(tx)
 
 	user, err := service.UserRepository.FindById(ctx, tx, request.Id)
