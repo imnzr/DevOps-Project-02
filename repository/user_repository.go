@@ -26,9 +26,8 @@ func (u *UserRepositoryImplementation) FindByEmail(ctx context.Context, tx *sql.
 	user := domain.User{}
 	if rows.Next() {
 		err := rows.Scan(&user.Id, &user.Username, &user.Email, &user.Password)
-		if err != nil {
-			return domain.User{}, fmt.Errorf("failed to scan row: %w", err)
-		}
+		helper.HandleErrorRows(err)
+
 		return user, nil
 	} else {
 		return domain.User{}, fmt.Errorf("user with email %s not found", email)
@@ -86,9 +85,7 @@ func (u *UserRepositoryImplementation) FindById(ctx context.Context, tx *sql.Tx,
 	user := domain.User{}
 	if rows.Next() {
 		err := rows.Scan(&user.Id, &user.Username, &user.Email)
-		if err != nil {
-			return domain.User{}, fmt.Errorf("failed to scan row: %w", err)
-		}
+		helper.HandleErrorRows(err)
 		return user, nil
 	} else {
 		return domain.User{}, fmt.Errorf("user with ID %d not found", userId)
@@ -105,9 +102,7 @@ func (u *UserRepositoryImplementation) Login(ctx context.Context, tx *sql.Tx, us
 
 	if rows.Next() {
 		err := rows.Scan(&user.Id, &user.Username, &user.Email)
-		if err != nil {
-			return domain.User{}, fmt.Errorf("failed to scan row: %w", err)
-		}
+		helper.HandleErrorRows(err)
 		return user, nil
 	} else {
 		return domain.User{}, fmt.Errorf("invalid username or password")
