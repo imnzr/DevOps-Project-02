@@ -1,4 +1,4 @@
-FROM golang:1.24
+FROM golang:1.24 AS builder
 
 WORKDIR /usr/src/app
 
@@ -9,6 +9,14 @@ RUN go mod download
 COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+
+# STAGE 2 
+
+FROM alpine:3.14
+
+WORKDIR /root/
+
+COPY --from=builder /usr/src/app/app .  
 
 EXPOSE 3000
 

@@ -11,10 +11,15 @@ import (
 )
 
 func GetConnection() (*sql.DB, error) {
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
+	if os.Getenv("ENV") != "production" {
+		if err := godotenv.Load(); err != nil {
+			log.Println("Error loading .env file")
+		}
 	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	DBUser := os.Getenv("DB_USER")
 	DBPass := os.Getenv("DB_PASS")
