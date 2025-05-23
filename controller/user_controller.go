@@ -42,13 +42,15 @@ func (controller *UserControllerImplementation) Login(writter http.ResponseWrite
 		Status: "OK",
 		Data:   userResponse,
 	}
-	writter.Header().Add("Content-Type", "application/json")
-	writter.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(writter).Encode(webResponse)
-	if err != nil {
-		http.Error(writter, err.Error(), http.StatusBadRequest)
-		return
-	}
+
+	utils.WriteJsonError(writter, http.StatusAccepted, webResponse)
+	// writter.Header().Add("Content-Type", "application/json")
+	// writter.WriteHeader(http.StatusOK)
+	// err = json.NewEncoder(writter).Encode(webResponse)
+	// if err != nil {
+	// 	http.Error(writter, err.Error(), http.StatusBadRequest)
+	// 	return
+	// }
 }
 
 // Create implements UserController.
@@ -66,9 +68,10 @@ func (controller *UserControllerImplementation) Create(writter http.ResponseWrit
 		Data:   userResponse,
 	}
 
-	writter.Header().Add("Content-Type", "application/json")
-	writter.WriteHeader(http.StatusOK)
-	json.NewEncoder(writter).Encode(webResponse)
+	utils.WriteJsonError(writter, http.StatusAccepted, webResponse)
+	// writter.Header().Add("Content-Type", "application/json")
+	// writter.WriteHeader(http.StatusOK)
+	// json.NewEncoder(writter).Encode(webResponse)
 }
 
 // Delete implements UserController.
@@ -84,12 +87,14 @@ func (controller *UserControllerImplementation) Delete(writter http.ResponseWrit
 		Code:   200,
 		Status: "OK",
 	}
-	writter.Header().Add("Content-Type", "application/json")
-	writter.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(writter).Encode(webResponse)
-	if err != nil {
-		http.Error(writter, err.Error(), http.StatusBadRequest)
-	}
+
+	utils.WriteJsonError(writter, http.StatusAccepted, webResponse)
+	// writter.Header().Add("Content-Type", "application/json")
+	// writter.WriteHeader(http.StatusOK)
+	// err = json.NewEncoder(writter).Encode(webResponse)
+	// if err != nil {
+	// 	http.Error(writter, err.Error(), http.StatusBadRequest)
+	// }
 }
 
 // FindAll implements UserController.
@@ -101,12 +106,13 @@ func (controller *UserControllerImplementation) FindAll(writter http.ResponseWri
 		Data:   user,
 	}
 
-	writter.Header().Add("Content-Type", "application/json")
-	writter.WriteHeader(http.StatusOK)
-	err := json.NewEncoder(writter).Encode(webResponse)
-	if err != nil {
-		http.Error(writter, err.Error(), http.StatusBadRequest)
-	}
+	utils.WriteJsonError(writter, http.StatusAccepted, webResponse)
+	// writter.Header().Add("Content-Type", "application/json")
+	// writter.WriteHeader(http.StatusOK)
+	// err := json.NewEncoder(writter).Encode(webResponse)
+	// if err != nil {
+	// 	http.Error(writter, err.Error(), http.StatusBadRequest)
+	// }
 }
 
 // FindById implements UserController.
@@ -125,12 +131,13 @@ func (controller *UserControllerImplementation) FindById(writter http.ResponseWr
 		Data:   user,
 	}
 
-	writter.Header().Add("Content-Type", "application/json")
-	writter.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(writter).Encode(webResponse)
-	if err != nil {
-		http.Error(writter, err.Error(), http.StatusBadRequest)
-	}
+	utils.WriteJsonError(writter, http.StatusAccepted, webResponse)
+	// writter.Header().Add("Content-Type", "application/json")
+	// writter.WriteHeader(http.StatusOK)
+	// err = json.NewEncoder(writter).Encode(webResponse)
+	// if err != nil {
+	// 	http.Error(writter, err.Error(), http.StatusBadRequest)
+	// }
 }
 
 // Update implements UserController.
@@ -159,11 +166,12 @@ func (controller *UserControllerImplementation) Update(writter http.ResponseWrit
 		Data:   userResponse,
 	}
 
-	writter.Header().Add("Content-Type", "application/json")
-	writter.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(writter).Encode(webResponse)
-	if err != nil {
-		http.Error(writter, err.Error(), http.StatusBadRequest)
-	}
+	utils.WriteJsonError(writter, http.StatusAccepted, webResponse)
+	// writter.Header().Add("Content-Type", "application/json")
+	// writter.WriteHeader(http.StatusOK)
+	// err = json.NewEncoder(writter).Encode(webResponse)
+	// if err != nil {
+	// 	http.Error(writter, err.Error(), http.StatusBadRequest)
+	// }
 
 }

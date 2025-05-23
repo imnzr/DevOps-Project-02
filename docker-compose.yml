@@ -8,9 +8,13 @@ services:
     expose:
       - "3306"
     environment:
+      # Password User ROOT in Container
      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      # Database name in Container
      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      # User name in Container
      MYSQL_USER: ${MYSQL_USER}
+      # Password User in Container
      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
