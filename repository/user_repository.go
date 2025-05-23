@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/imnzr/DevOps-Project-02/helper"
 	"github.com/imnzr/DevOps-Project-02/models/domain"
 )
 
@@ -19,9 +20,7 @@ func NewUserRepository() UserRepository {
 func (u *UserRepositoryImplementation) FindByEmail(ctx context.Context, tx *sql.Tx, email string) (domain.User, error) {
 	query := "SELECT id, username, email, password FROM `user` WHERE email = ?"
 	rows, err := tx.QueryContext(ctx, query, email)
-	if err != nil {
-		return domain.User{}, fmt.Errorf("failed to execute query: %w", err)
-	}
+	helper.HandleQueryError(err)
 	defer rows.Close()
 
 	user := domain.User{}
@@ -59,10 +58,8 @@ func (u *UserRepositoryImplementation) Delete(ctx context.Context, tx *sql.Tx, u
 func (u *UserRepositoryImplementation) FindByAll(ctx context.Context, tx *sql.Tx) []domain.User {
 	query := "SELECT id, username, email FROM `user`"
 	rows, err := tx.QueryContext(ctx, query)
-	if err != nil {
-		fmt.Println("Error executing query:", err)
-		return nil
-	}
+	helper.HandleQueryError(err)
+
 	defer rows.Close()
 
 	var users []domain.User
@@ -82,9 +79,8 @@ func (u *UserRepositoryImplementation) FindByAll(ctx context.Context, tx *sql.Tx
 func (u *UserRepositoryImplementation) FindById(ctx context.Context, tx *sql.Tx, userId int) (domain.User, error) {
 	query := "SELECT id, username, email FROM `user` WHERE id = ?"
 	rows, err := tx.QueryContext(ctx, query, userId)
-	if err != nil {
-		return domain.User{}, fmt.Errorf("failed to execute query: %w", err)
-	}
+	helper.HandleQueryError(err)
+
 	defer rows.Close()
 
 	user := domain.User{}
@@ -103,9 +99,8 @@ func (u *UserRepositoryImplementation) FindById(ctx context.Context, tx *sql.Tx,
 func (u *UserRepositoryImplementation) Login(ctx context.Context, tx *sql.Tx, user domain.User) (domain.User, error) {
 	query := "SELECT id, username, email FROM `user` WHERE email = ? AND password = ?"
 	rows, err := tx.QueryContext(ctx, query, user.Email, user.Password)
-	if err != nil {
-		return domain.User{}, fmt.Errorf("failed to execute query: %w", err)
-	}
+	helper.HandleQueryError(err)
+
 	defer rows.Close()
 
 	if rows.Next() {
@@ -123,9 +118,8 @@ func (u *UserRepositoryImplementation) Login(ctx context.Context, tx *sql.Tx, us
 func (u *UserRepositoryImplementation) Save(ctx context.Context, tx *sql.Tx, user domain.User) (domain.User, error) {
 	query := "INSERT INTO user(username, email, password) VALUES(?, ?, ?)"
 	result, err := tx.ExecContext(ctx, query, user.Username, user.Email, user.Password)
-	if err != nil {
-		return domain.User{}, fmt.Errorf("failed to execute query: %w", err)
-	}
+	helper.HandleQueryError(err)
+
 	lastInsertId, err := result.LastInsertId()
 	if err != nil {
 		return domain.User{}, fmt.Errorf("failed to get last insert ID: %w", err)
@@ -138,9 +132,8 @@ func (u *UserRepositoryImplementation) Save(ctx context.Context, tx *sql.Tx, use
 func (u *UserRepositoryImplementation) Update(ctx context.Context, tx *sql.Tx, user domain.User) (domain.User, error) {
 	query := "UPDATE `user` SET username = ?, email = ?, password = ? WHERE id = ?"
 	result, err := tx.ExecContext(ctx, query, user.Username, user.Email, user.Password, user.Id)
-	if err != nil {
-		return domain.User{}, fmt.Errorf("failed to execute query: %w", err)
-	}
+	helper.HandleQueryError(err)
+
 	RowsAffected, err := result.RowsAffected()
 	if err != nil {
 		return domain.User{}, fmt.Errorf("failed to get rows affected: %w", err)
