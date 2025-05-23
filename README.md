@@ -145,3 +145,145 @@ Scroll kebawah dan centang bagian Let me select individual events
 lalu centang bagian pull request dan add webhook
 
 ![image](https://github.com/user-attachments/assets/09636357-d9cc-41dc-9935-fe1f9f52e2d7)
+
+## STEP 3 : Integrate Jenkins dengan SonarQube
+
+Buat server baru di AWS EC2 dengan mengikuti langkah-langkah diatas, setelah berhasil membuat server baru install openjdk java
+
+![Screenshot from 2025-05-23 14-36-59](https://github.com/user-attachments/assets/0d71714c-2686-4f5b-829c-ad5c70713ed8)
+
+Setelah berhasil menginstall openjdk java, selanjutnya adalah download SonarQube 
+
+![Screenshot from 2025-05-23 14-32-54](https://github.com/user-attachments/assets/8dc29439-e425-488d-a0f5-6d2379c50db7)
+
+Setelah berhasil download SonarQube, selanjutnya adalah menginstall UNZIP untuk mengextract file SonarQube yang sudah di download tadi
+
+![Screenshot from 2025-05-23 14-34-01](https://github.com/user-attachments/assets/69e5215c-1b35-49d2-844c-5ea5dbbbeab3)
+
+Selanjutnya adalah UNZIP file SonarQube yang sudah di download tadi 
+
+![Screenshot from 2025-05-23 14-34-35](https://github.com/user-attachments/assets/9ca9be46-3048-47fb-93b2-86c59dddca17)
+
+Setelah di unzip, selanjutnya buka folder SonarQube dan jalankan sonarqube dengan perintah ./sonar.sh start
+
+![Screenshot from 2025-05-23 14-35-24](https://github.com/user-attachments/assets/d610a4e3-01bd-459a-942f-4dd825842cbf)
+
+Selanjutnya adalah mengizinkan port default dari Sonarqube PORT 9000 di Inbound Rules AWS EC2 
+
+![Screenshot from 2025-05-23 14-39-24](https://github.com/user-attachments/assets/1d6067c9-3596-4c92-a18d-765fa7b9fc4b)
+
+Setelah mengizinkan PORT 9000 di Inbound Rules server SonarQube, selanjutnya akses halaman SonarQube di browser dengan IP-SERVER + PORT:9000.
+
+![Screenshot from 2025-05-23 15-44-19](https://github.com/user-attachments/assets/f60fcd48-19e3-4549-bc26-b49cb52e3492)
+
+Setelah berhasil mengkonfigurasi user sonarqube selanjutnya adalah membuat project SonarQube, pada project ini menggunakan "Create a local project"
+
+![Screenshot from 2025-05-23 15-45-27](https://github.com/user-attachments/assets/8eb490c4-caba-437b-8d83-8fd529e8803d)
+
+Lalu masukkan nama project dan branch name dari repository 
+
+![Screenshot from 2025-05-23 15-45-38](https://github.com/user-attachments/assets/6f51ac00-b139-41ae-870e-f05311a70dd2)
+
+Selanjutnya pilih global setting 
+
+![Screenshot from 2025-05-23 15-45-48](https://github.com/user-attachments/assets/fd6d9933-18bb-4e6f-999c-1f33f115a06b)
+
+Langkah selanjutnya adalah pilih "with jenkins" untuk analysis method 
+
+![Screenshot from 2025-05-23 15-46-02](https://github.com/user-attachments/assets/0da2a667-17ea-4746-831c-62b58b33cf73)
+
+Lalu pilih Github untuk DevOps Platform
+
+![Screenshot from 2025-05-23 15-46-12](https://github.com/user-attachments/assets/9eab01de-5b54-4bff-8318-56656ebc2820)
+
+Install plugin SonarQube di Jenkins
+
+![Screenshot from 2025-05-23 15-50-06](https://github.com/user-attachments/assets/f75a3b33-1abf-4f12-b23c-7186c5ee03cf)
+
+Setelah berhasil menginstall plugin SonarQube, selanjutnya Add SonarQube installations di pengaturan Manage Jenkins > System
+
+![Screenshot from 2025-05-23 15-51-00](https://github.com/user-attachments/assets/c91e9a05-30d5-4646-bc56-e07123804277)
+
+Lalu konfigurasi Nama Server, Server URL diisi dengan alamat IP dan PORT yang digunakan SonarQube, dan untuk Server Authentication Token pilih ADD > Jenkins
+
+![Screenshot from 2025-05-23 15-51-28](https://github.com/user-attachments/assets/6d0a6964-588f-4f97-8869-2888d1282a7c)
+
+Untuk menambahkan Server Authentication Token, pergi ke My Account di pojok kanan atas, lalu di menu security isi nama token, untuk type nya Global Analysis token dan expired lalu klik generate 
+
+![Screenshot from 2025-05-23 15-52-15](https://github.com/user-attachments/assets/eb4ae3fe-efc6-453e-b809-299b498b2a3a)
+
+Copy token nya lalu pergi ke menu Server Authentication Server di Jenkins, di Jenkins Credentials Provider Jenkins pilih Secret Text dan masukkan token tadi lalu Save pengaturan
+
+![Screenshot from 2025-05-23 15-53-17](https://github.com/user-attachments/assets/f810bd93-38fd-416b-8b2e-5a4fdd3ace5a)
+
+Scroll kebawah pada Analyze your project with Jenkins di SonarQube, lalu pada menu Create a Jenkinsfile pilih Other(for Go, Python, PHP), maka akan muncul code sonar-project-properties. copy code tersebut 
+
+![Screenshot from 2025-05-23 15-54-37](https://github.com/user-attachments/assets/98330b34-6787-46fe-a8cb-adf2432acf60)
+
+Selanjutnya pergi ke project kita, lalu pilih Environment dan tambahkan build step lalu pilih Execute SonarQube Server, lalu paste code sonar-project-properties tadi di analysis properties lalu save
+
+![Screenshot from 2025-05-23 21-11-48](https://github.com/user-attachments/assets/f1d64a15-f15e-40cf-b53d-61e0f6dff5fb)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
