@@ -30,13 +30,13 @@ func main() {
 
 	// Endpoint handlers
 	router.GET("/users", userController.FindAll)
-	router.GET("/user/:id", userController.FindById)
+	router.GET("/user/:userId", userController.FindById)
 	router.POST("/user/login", userController.Login)
 	router.POST("/user/create", userController.Create)
-	router.PUT("/user/update/:id", userController.Update)
+	router.PUT("/user/update/:userId", userController.Update)
 
 	server := http.Server{
-		Addr:    ":8080",
+		Addr:    "localhost:8080",
 		Handler: router,
 	}
 	err = server.ListenAndServe()
