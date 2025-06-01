@@ -224,6 +224,9 @@ Selanjutnya pergi ke project kita, lalu pilih Environment dan tambahkan build st
 
 ![Screenshot from 2025-05-23 21-11-48](https://github.com/user-attachments/assets/f1d64a15-f15e-40cf-b53d-61e0f6dff5fb)
 
+Selanjutnya build ulang project dan lihat hasil scan oleh SonarQube di dashboard dengan mengakses <ip-server-sonarqube>+<port> di web browser. erikut adalah hasil dari scan source code
+
+![image](https://github.com/user-attachments/assets/691a41c0-c69a-4c70-9198-9f3782ebe372)
 
 
 
