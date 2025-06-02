@@ -292,8 +292,60 @@ Lalu pada bagian server list masukkan nama server-name dan server ip. server IP 
 
 ![image](https://github.com/user-attachments/assets/c2d9ea07-3c7e-4ce2-8c16-2339fe4bde12)
 
+Selanjutnya buat folder di server Docker 
 
+![image](https://github.com/user-attachments/assets/fffd9aa6-3def-4afc-a4dc-18341275f7da)
 
+Lalu buat execute shell di menu build step jenkins, buka project di jenkins lalu masuk ke konfigurasi. tambahkan perintah berikut ini untuk menyalin proyek dari workspace jenkis ke dalam folder todolist yang sudah dibuat di server docker 
+```
+set -e  # Stop on error
+echo "Starting SCP transfer..."
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ./* ubuntu@18.140.55.142:~/todolist/
+echo "Transfer complete."
+```
+![image](https://github.com/user-attachments/assets/afad518e-5be0-457c-adf9-5b2790668a3a)
+
+dan tambahkan build step lagi dengan menambahkan remote shell agar setiap selesai proses copy ke folder todolist, selanjutnya proses build docker menggunakan perintah berikut ini lalu save
+```
+// masuk ke folder todolisit
+cd /home/ubuntu/todolist
+// build docker
+docker-compose up --build -d
+```
+![image](https://github.com/user-attachments/assets/48d0070a-d3e8-4cc0-a52a-4c90509d5acd)
+
+Selanjutnya run project (Build Now)
+
+![image](https://github.com/user-attachments/assets/b05d583e-95ba-4c89-8a14-57c9fb19e582)
+
+Pada gambar dibawah ini terlihat bahwa ada 2 container berjalan yaitu container mysql dan project kita
+
+![image](https://github.com/user-attachments/assets/f20db087-46c8-454e-9f1a-54161fdbda79)
+
+atau bisa juga mengecek dengan mengetikkan perintah "docker ps" di server docker 
+
+![image](https://github.com/user-attachments/assets/87429104-09fe-4829-86c6-090cfa194d6f)
+
+Selanjutnya izinkan akses PORT 8080 di server docker dengan masuk ke menu security group 
+
+![image](https://github.com/user-attachments/assets/732adc50-da58-40ca-a93e-228265674a33)
+
+Selanjutnya masuk ke mysql di container mysql docker untuk membuat tabel pada database. lalu buat tabel sesuai dengan keperluan
+
+![image](https://github.com/user-attachments/assets/eeaa4635-fbfc-4790-9e16-4a468228cdb8)
+
+![image](https://github.com/user-attachments/assets/d9e9f926-b3b1-4d6f-9ac9-d726b0947fb8)
+
+Setelah membuat tabel di mysql container, sekarang cek API user yang sudah dibuat menggunakan POSTMAN dengan endpoint 
+```
+http://<ip-server-docker>:port/endpoint
+http://18.140.55.142:8080/user/create
+```
+![image](https://github.com/user-attachments/assets/435cb8c9-09cb-42d5-a935-cf616551e201)
+
+![image](https://github.com/user-attachments/assets/e4503329-83d5-49e3-842e-59a39b2d9bec)
+
+Sekarang project berhasil di deploy di docker container 
 
 
 
