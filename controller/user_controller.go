@@ -132,12 +132,6 @@ func (controller *UserControllerImplementation) FindById(writter http.ResponseWr
 	}
 
 	utils.WriteJsonError(writter, http.StatusAccepted, webResponse)
-	// writter.Header().Add("Content-Type", "application/json")
-	// writter.WriteHeader(http.StatusOK)
-	// err = json.NewEncoder(writter).Encode(webResponse)
-	// if err != nil {
-	// 	http.Error(writter, err.Error(), http.StatusBadRequest)
-	// }
 }
 
 // Update implements UserController.
