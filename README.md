@@ -228,38 +228,69 @@ Selanjutnya build ulang project dan lihat hasil scan oleh SonarQube di dashboard
 
 ![image](https://github.com/user-attachments/assets/691a41c0-c69a-4c70-9198-9f3782ebe372)
 
+## STEP 4 : Integrate Jenkins dengan Docker
 
+Akses server docker menggunakan SSH dan gunakan perintah "sudo apt get update" untuk update pembaharuan yang tersedia di server 
 
+![Screenshot from 2025-06-01 19-11-57](https://github.com/user-attachments/assets/945a6f74-320c-4b36-8376-154ab7e1d5ea)
 
+Setelah berhasil di update, selanjutnya download docker di web berikut ini :https://docs.docker.com/engine/install/ubuntu/ .pastikan untuk os yang digunakan di server sesuai dengan instalasi docker 
 
+![Screenshot from 2025-06-01 19-12-16](https://github.com/user-attachments/assets/14233d9f-a0c3-446e-af96-96ba7fd27c2d)
 
+Copy perintah 1. Setup Docker apt repository dan paste di terminal 
 
+![Screenshot from 2025-06-01 19-12-38](https://github.com/user-attachments/assets/ceac9a03-ce53-4c23-9540-7d0e4264cb5b)
 
+Selanjutnya install the docker packages di terminal dan verifikasi instalasi docker dengan menggunakan perintah "sudo docker run hello-world"
 
+![Screenshot from 2025-06-01 19-13-16](https://github.com/user-attachments/assets/f87836ff-965e-4f48-8b45-41e78b102481)
 
+Selanjutnya adalah mengkonfigurasi file SSHD_CONFIG agar server Docker dapat diakses menggunakan password dengan cara masuk sebagai root dan ketikkan perintah "nano /etc/ssh/sshd_config"
 
+Konfigurasi PubkeyAuthentication apabila sebelumnya bernilai "NO" ubah menjadi "YES"
 
+![Screenshot from 2025-06-01 19-16-56](https://github.com/user-attachments/assets/4d863ffc-d203-4613-943e-c683bc66c1cb)
 
+Selanjutnya pada bagian PasswordAuthentication ubah dari "NO" menjadi "YES"
 
+![Screenshot from 2025-06-01 19-17-09](https://github.com/user-attachments/assets/33167b22-f23d-49af-a60e-54f03b75ec62)
 
+Setelah berhasil di konfigurasi, selanjutnya restart sshd menggunakan perintah "systemctl restart sshd"
 
+![Screenshot from 2025-06-01 19-17-32](https://github.com/user-attachments/assets/518b540f-b293-423c-926b-dde94606b3ef)
 
+Selanjutnya adalah membuat password untuk user root/ubuntu dengan perintah passwd 
 
+![Screenshot from 2025-06-01 19-19-54](https://github.com/user-attachments/assets/a60fa377-b527-4f32-a1bf-cc66bd2aa023)
 
+Buka server jenkins dan akses sebagai root dan buat ssh-keygen agar jenkins dapat mengakses server docker
 
+![Screenshot from 2025-06-01 19-21-15](https://github.com/user-attachments/assets/91c594b2-73c1-40ac-804a-2363abc6f2c2)
 
+Salin isi dari id_rsa.pub mulai dari ssh-rsa sampai user@user
 
+![image](https://github.com/user-attachments/assets/0b1a0c41-8e6b-4ae8-af30-a2b457b3e2f6)
 
+dan simpan id_rsa.pub ke server docker dan di simpan di folder /home/ubuntu/.ssh/authorized keys
 
+![image](https://github.com/user-attachments/assets/eaafc15b-8e24-4b3c-9b48-6e775f18bdae)
 
+server docker berhasil di akses menggunakan password
 
+![image](https://github.com/user-attachments/assets/49d0977f-7a24-4a89-bd7a-1c52d8168d7d)
 
+Selanjutnya install docker-compose di server docker menggunakan perintah berikut ini
 
+![Screenshot from 2025-06-01 23-03-10](https://github.com/user-attachments/assets/b357da9c-cc1d-48a5-8a99-6174114d248d)
 
+Setelah berhasil diinstall, selanjutnya adalah mengkonfigurasi Jenkins. Buka server jenkins dan masuk ke menu Dashboard/Manage Jenkins/System. tambahkan pada menu server group list dan masukkan group name dengan nama Docker, SSH PORT default ssh yaitu 22, username dari server docker = ubuntu dan password yang sudah dibuat
 
+![image](https://github.com/user-attachments/assets/c36c6426-97cf-4fa6-bbb6-f421905f5dc2)
 
+Lalu pada bagian server list masukkan nama server-name dan server ip. server IP memakai IP server DOCKER selanjutnya save
 
-
+![image](https://github.com/user-attachments/assets/c2d9ea07-3c7e-4ce2-8c16-2339fe4bde12)
 
 
 
